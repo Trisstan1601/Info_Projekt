@@ -61,7 +61,7 @@ def drehen():
 
 # Anzeige des aktuellen Kontostands
 st.metric(label="Dein Guthaben", value=f"{st.session_state.kontostand} Punkte")
-st.metric)(label="Dein Geld", value=f"{st.session_state.geld} ID")
+st.metric(label="Dein Geld", value=f"{st.session_state.geld} ID")
 
 st.markdown("---")
 
