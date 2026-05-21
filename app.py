@@ -1,98 +1,90 @@
 import streamlit as st
 import random
-import time
 
-# --- SEITENKONFIGURATION ---
-st.set_page_config(page_title="Schulprojekt: Slot Machine", page_icon="🎰", layout="centered")
+st.set_page_config(page_title="Schulprojekt: Ägypten Slot", page_icon="𓎡", layout="centered")
+st.title("𓎡 Schulprojekt: 5-Walzen Ägypten-Slot")
+st.write("Ein Prototyp zur Demonstration von 5-Walzen-Logik und Gewinnlinien.")
 
-st.title("🎰 Schulprojekt: Mini Slot Machine")
-st.write("Willkommen beim Prototypen! Drücke auf 'Drehen', um dein Glück zu versuchen.")
-
-# --- INITIALISIERUNG DES ZUSTANDS (Session State) ---
-# Hier speichern wir Daten, die zwischen den Klicks erhalten bleiben müssen.
+# --- INITIALISIERUNG ---
 if "kontostand" not in st.session_state:
-    st.session_state.kontostand = 100  # Startguthaben
+    st.session_state.kontostand = 500
+if "linien" not in st.session_state:
+    st.session_state.linien = 9
+if "einsatz_pro_linie" not in st.session_state:
+    st.session_state.einsatz_pro_linie = 2
+if "freispiele" not in st.session_state:
+    st.session_state.freispiele = 0
 
-if "walzen" not in st.session_state:
-    st.session_state.walzen = ["🍒", "🍋", "🍇"]  # Start-Symbole auf dem Bildschirm
+# Das 5x3 Raster mit Startsymbolen füllen
+if "raster" not in st.session_state:
+    st.session_state.raster = [
+        ["❓", "❓", "❓", "❓", "❓"],
+        ["❓", "❓", "❓", "❓", "❓"],
+        ["❓", "❓", "❓", "❓", "❓"]
+    ]
 
-# Mögliche Symbole auf den Walzen
-SYMBOLE = ["🍒", "🍋", "🍇", "🔔", "💎", "7️⃣"]
+# Symbole mit unterschiedlichen Wertigkeiten (und das Buch)
+SYMBOLE = {
+    "🤠": "Forscher", 
+    "👑": "Pharao", 
+    "🦅": "Isis-Statue", 
+    "𓄿": "Käfer", 
+    "🅰️": "Ass", 
+    "🦘": "König",
+    "📖": "Buch (Scatter/Joker)"
+}
+Symbol_Liste = list(SYMBOLE.keys())
+
+# --- EINSTELLUNGEN IN DER SEITENLEISTE ---
+st.sidebar.header("Spieleinstellungen")
+st.session_state.linien = st.sidebar.selectbox("Anzahl Gewinnlinien", [1, 3, 5, 9])
+st.session_state.einsatz_pro_linie = st.sidebar.slider("Einsatz pro Linie", 1, 10, 2)
+
+gesamteinsatz = st.session_state.linien * st.session_state.einsatz_pro_linie
+st.sidebar.write(f"**Gesamteinsatz:** {gesamteinsatz} Punkte")
 
 # --- SPIELLOGIK ---
 def drehen():
-    # Prüfen, ob noch Guthaben da ist
-    if st.session_state.kontostand <= 0:
-        st.error("Du hast kein Guthaben mehr! Setze das Spiel zurück.")
+    if st.session_state.kontostand < gesamteinsatz and st.session_state.freispiele == 0:
+        st.error("Nicht genug Guthaben!")
         return
 
-    # Einsatz abziehen
-    st.session_state.kontostand -= 10
-
-    # Zufällige Auswahl für die drei Walzen
-    w1 = random.choice(SYMBOLE)
-    w2 = random.choice(SYMBOLE)
-    w3 = random.choice(SYMBOLE)
-    
-    st.session_state.walzen = [w1, w2, w3]
-
-    # Gewinnberechnung
-    if w1 == w2 == w3:
-        # Hauptgewinn bei 3 gleichen Symbolen
-        if w1 == "7️⃣":
-            gewinn = 100
-        elif w1 == "💎":
-            gewinn = 70
-        else:
-            gewinn = 40
-        st.session_state.kontostand += gewinn
-        st.success(f"🎉 JACKPOT! 3x {w1}! Du gewinnst {gewinn} Punkte!")
-    elif w1 == w2 or w2 == w3 or w1 == w3:
-        # Kleiner Gewinn bei 2 gleichen Symbolen
-        st.session_state.kontostand += 15
-        st.info("✨ Gut gemacht! 2 gleiche Symbole! Du gewinnst 15 Punkte!")
+    if st.session_state.freispiele > 0:
+        st.session_state.freispiele -= 1
     else:
-        st.warning("Leider kein Gewinn. Versuch es noch einmal!")
+        st.session_state.kontostand -= gesamteinsatz
 
-# --- BENUTZEROBERFLÄCHE (UI) ---
+    # Neues 5x3 Raster generieren
+    neues_raster = []
+    for reihe in range(3):
+        neue_reihe = [random.choice(Symbol_Liste) for _ in range(5)]
+        neues_raster.append(neue_reihe)
+    
+    st.session_state.raster = neues_raster
 
-# Anzeige des aktuellen Kontostands
-st.metric(label="Dein Guthaben", value=f"{st.session_state.kontostand} Punkte")
+    # Zählen, wie viele Bücher (📖) auf dem Bildschirm sind
+    anzahl_buecher = sum(reihe.count("📖") for reihe in neues_raster)
+    
+    if anzahl_buecher >= 3:
+        st.session_state.freispiele += 10
+        st.balloons()
+        st.success(f"𓋹 {anzahl_buecher} BÜCHER! Du hast 10 FREISPIELE gewonnen! 𓋹")
+
+# --- UI ANZEIGE ---
+st.metric(label="Kontostand", value=f"{st.session_state.kontostand} Punkte")
+if st.session_state.freispiele > 0:
+    st.info(f"✨ Verbleibende Freispiele: {st.session_state.freispiele} ✨")
 
 st.markdown("---")
 
-# Schöne Darstellung der Walzen in Spalten (Columns)
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown(f"<h1 style='text-align: center;'>{st.session_state.walzen[0]}</h1>", unsafe_allow_html=True)
-with col2:
-    st.markdown(f"<h1 style='text-align: center;'>{st.session_state.walzen[1]}</h1>", unsafe_allow_html=True)
-with col3:
-    st.markdown(f"<h1 style='text-align: center;'>{st.session_state.walzen[2]}</h1>", unsafe_allow_html=True)
+# Das 5x3 Raster anzeigen
+for r in range(3):
+    cols = st.columns(5)
+    for c in range(5):
+        with cols[c]:
+            st.markdown(f"<h2 style='text-align: center; background-color: #1e1e1e; padding: 10px; border-radius: 5px;'>{st.session_state.raster[r][c]}</h2>", unsafe_allow_html=True)
 
 st.markdown("---")
 
-# Buttons für die Steuerung
-col_btn1, col_btn2 = st.columns(2)
-
-with col_btn1:
-    # Der Dreh-Button (kostet 10 Punkte)
-    if st.button("🎰 Jetzt Drehen! (Kosten: 10 Punkte)", use_container_width=True):
-        drehen()
-
-with col_btn2:
-    # Reset-Button, um das Spiel neu zu starten
-    if st.button("🔄 Spiel zurücksetzen", use_container_width=True):
-        st.session_state.kontostand = 100
-        st.session_state.walzen = ["🍒", "🍋", "🍇"]
-        st.rerun()
-
-# --- ANLEITUNG / ERKLÄRUNG FÜR DIE SCHULE ---
-st.markdown("### ℹ️ Spielregeln & Infos")
-st.write("""
-- **Einsatz:** Jeder Dreh kostet dich 10 Punkte.
-- **2 gleiche Symbole:** Du erhältst 15 Punkte zurück.
-- **3 gleiche Symbole:** Großer Gewinn! (Je nach Symbol zwischen 40 und 100 Punkten).
-- Dieses Projekt wurde zu Bildungszwecken mit Python und Streamlit erstellt.
-""")
+if st.button("𓀚 Start (Drehen)", use_container_width=True):
+    drehen()
