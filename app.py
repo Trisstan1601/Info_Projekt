@@ -23,14 +23,14 @@ if "walzen" not in st.session_state:
 SYMBOLE = ["🍒", "🍋", "🍇", "🔔", "💎", "7️⃣"]
 
 # --- SPIELLOGIK ---
-def drehen():
+def drehen(aktueller_einsatz):
     # Prüfen, ob noch Guthaben da ist
     if st.session_state.kontostand <= 0:
         st.error("Du hast kein Guthaben mehr! Setze das Spiel zurück.")
         return
 
     # Einsatz abziehen
-    st.session_state.kontostand -= 10
+    st.session_state.kontostand -= aktueller_einsatz
 
     # Zufällige Auswahl für die drei Walzen
     w1 = random.choice(SYMBOLE)
@@ -74,6 +74,7 @@ with col2:
     st.markdown(f"<h1 style='text-align: center;'>{st.session_state.walzen[1]}</h1>", unsafe_allow_html=True)
 with col3:
     st.markdown(f"<h1 style='text-align: center;'>{st.session_state.walzen[2]}</h1>", unsafe_allow_html=True)
+
 
 einsatz = st.selectbox("Wähle deinen Einsatz:", [5, 10, 20, 50])
 
