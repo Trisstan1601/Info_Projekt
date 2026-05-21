@@ -61,6 +61,7 @@ def drehen():
 
 # Anzeige des aktuellen Kontostands
 st.metric(label="Dein Guthaben", value=f"{st.session_state.kontostand} Punkte")
+st.metric)(label="Dein Geld", value=f"{st.session_state.geld} ID")
 
 st.markdown("---")
 
@@ -87,7 +88,7 @@ with col_btn1:
 with col_btn2:
     # Reset-Button, um das Spiel neu zu starten
     if st.button("🔄 Spiel zurücksetzen", use_container_width=True):
-        st.session_state.geld = 100, "€"
+        st.session_state.geld = 100, "ID"
         st.session_state.kontostand = 100
         st.session_state.walzen = ["🍒", "🍋", "🍇"]
         st.rerun()
