@@ -5,7 +5,7 @@ import time
 # --- SEITENKONFIGURATION ---
 st.set_page_config(page_title="Schulprojekt: Slot Machine", page_icon="🎰", layout="centered")
 
-st.title("🎰 Schulprojekt: Mini Slot Machine")
+st.title("🎰 GIG: Glücksspiel ist Geil")
 st.write("Willkommen beim Prototypen! Drücke auf 'Drehen', um dein Glück zu versuchen.")
 
 # --- INITIALISIERUNG DES ZUSTANDS (Session State) ---
@@ -74,6 +74,9 @@ with col2:
     st.markdown(f"<h1 style='text-align: center;'>{st.session_state.walzen[1]}</h1>", unsafe_allow_html=True)
 with col3:
     st.markdown(f"<h1 style='text-align: center;'>{st.session_state.walzen[2]}</h1>", unsafe_allow_html=True)
+
+st.selectbox([5, 10, 20, 50])
+
 
 st.markdown("---")
 
