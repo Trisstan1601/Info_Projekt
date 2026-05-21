@@ -10,6 +10,9 @@ st.write("Willkommen beim Prototypen! Drücke auf 'Drehen', um dein Glück zu ve
 
 # --- INITIALISIERUNG DES ZUSTANDS (Session State) ---
 # Hier speichern wir Daten, die zwischen den Klicks erhalten bleiben müssen.
+if "geld" not in st.session_state:
+    st.session_state.geld = 100, "ID"
+
 if "kontostand" not in st.session_state:
     st.session_state.kontostand = 100  # Startguthaben
 
@@ -84,6 +87,7 @@ with col_btn1:
 with col_btn2:
     # Reset-Button, um das Spiel neu zu starten
     if st.button("🔄 Spiel zurücksetzen", use_container_width=True):
+        st.session_state.geld = 100, "€"
         st.session_state.kontostand = 100
         st.session_state.walzen = ["🍒", "🍋", "🍇"]
         st.rerun()
