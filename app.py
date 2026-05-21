@@ -95,13 +95,17 @@ with col_btn2:
 
 st.markdown("---")
 
-col_btn1 = st.columns(1)
+# Neuer Variablenname (z.B. col_shop), um Konflikte zu vermeiden
+col_shop = st.columns(1)
 
-with col_btn1:
+with col_shop[0]:
     if st.button("Jetzt neues Guthaben kaufen! (5ID = 100 Punkte)", use_container_width=True):
-        st.session_state.kontostand + 100
-        st.session_state.geld - 5
-        st.return()
+        if st.session_state.geld >= 5:
+            st.session_state.kontostand += 100  # += speichert den neuen Wert
+            st.session_state.geld -= 5          # -= zieht das Geld ab
+            st.rerun()                          # Korrektes Neuladen der Seite
+        else:
+            st.error("Du hast nicht genug ID, um Guthaben zu kaufen!")
 
 # --- ANLEITUNG / ERKLÄRUNG FÜR DIE SCHULE ---
 st.markdown("### ℹ️ Spielregeln & Infos")
