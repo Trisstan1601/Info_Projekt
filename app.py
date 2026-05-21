@@ -101,6 +101,7 @@ with col_btn1:
     if st.button("Jetzt neues Guthaben kaufen! (5ID = 100 Punkte)", use_container_width=True):
         st.session_state.kontostand + 100
         st.session_state.geld - 5
+        st.return()
 
 # --- ANLEITUNG / ERKLÄRUNG FÜR DIE SCHULE ---
 st.markdown("### ℹ️ Spielregeln & Infos")
