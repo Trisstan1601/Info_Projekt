@@ -75,7 +75,7 @@ with col2:
 with col3:
     st.markdown(f"<h1 style='text-align: center;'>{st.session_state.walzen[2]}</h1>", unsafe_allow_html=True)
 
-st.selectbox([5, 10, 20, 50])
+einsatz = st.selectbox("Wähle deinen Einsatz:", [5, 10, 20, 50])
 
 
 st.markdown("---")
