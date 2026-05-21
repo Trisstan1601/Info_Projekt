@@ -87,7 +87,7 @@ col_btn1, col_btn2 = st.columns(2)
 with col_btn1:
     # Der Dreh-Button (kostet 10 Punkte)
     if st.button("🎰 Jetzt Drehen! (Kosten: 10 Punkte)", use_container_width=True):
-        drehen(aktueller_einsatz)
+        drehen(einsatz)
 
 with col_btn2:
     # Reset-Button, um das Spiel neu zu starten
