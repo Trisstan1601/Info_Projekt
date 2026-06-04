@@ -31,6 +31,8 @@ def drehen(aktueller_einsatz):
     
     st.session_state.walzen = [w1, w2, w3]
 
+    w1, w2, w3 = st.session_state.walzen
+
     if w1 == w2 == w3:
         if w1 == "7️⃣":
             gewinn = aktueller_einsatz*10
