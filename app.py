@@ -72,7 +72,7 @@ st.markdown("---")
 col_btn1, col_btn2 = st.columns(2)
 
 with col_btn1:
-    if st.button("🎰 Jetzt Drehen! (Kosten:" aktueller_einsatz), use_container_width=True):
+    if st.button("🎰 Jetzt Drehen! (Kosten: aktueller_einsatz)", use_container_width=True):
         drehen(einsatz)
 
 with col_btn2:
