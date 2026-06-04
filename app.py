@@ -46,9 +46,7 @@ def drehen(aktueller_einsatz):
     elif w1 == w2 or w2 == w3 or w1 == w3:
         st.session_state.kontostand += 15
         st.info("✨ Gut gemacht! 2 gleiche Symbole! Du gewinnst 15 Punkte!")
-
-    st.rerun()
-        
+    st.rerun() 
     else:
         st.warning("Leider kein Gewinn. Versuch es noch einmal!")
 
