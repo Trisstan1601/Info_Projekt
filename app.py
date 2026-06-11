@@ -20,7 +20,10 @@ SYMBOLE = ["🍒", "🍋", "🍇", "🔔", "💎", "7️⃣"]
 
 def drehen(aktueller_einsatz):
     if st.session_state.kontostand <= 0:
-        st.error("Du hast kein Guthaben mehr! Setze das Spiel zurück.")
+        st.error("Du hast kein Guthaben mehr! Kaufe dir weiteres Guthaben.")
+        return
+    elif st.session_state.kontostand < aktueller_einsatz_
+        st.error("Wähle einen anderen Einsatz.")
         return
 
     st.session_state.kontostand -= aktueller_einsatz
