@@ -104,6 +104,7 @@ if spiel_auswahl == "🎰 Slot Machine":
                     st.rerun()                         
                 else:
                     st.error("Du hast nicht genug ID, um Guthaben zu kaufen!")
+    slot_machine()
     pass
 elif spiel_auswahl == "🃏 Schwarzer Joachim":
     def blackjack():
@@ -226,6 +227,7 @@ elif spiel_auswahl == "🃏 Schwarzer Joachim":
                 with col_stand:
                     if st.button("🛑 Keine Karte mehr (Stand)", use_container_width=True):
                         dealer_spielt()
+    blackjack()
     pass
     st.markdown("### ℹ️ Spielregeln & Infos")
     st.write("""
