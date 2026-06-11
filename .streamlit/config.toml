@@ -1,2 +1,5 @@
 [theme]
-primaryColor = "#FF0000"
+primaryColor = "#FF0000"          # Dein roter Button
+backgroundColor = "#0E1117"       # Das klassische Streamlit-Dunkelblau/Schwarz
+secondaryBackgroundColor = "#262730" # Etwas helleres Blau/Grau für Seitenleisten/Boxen
+textColor = "#FAFAFA"             # Weißer Text, damit man alles gut lesen kann
