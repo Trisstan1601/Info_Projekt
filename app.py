@@ -6,7 +6,7 @@ st.set_page_config(page_title="Schulprojekt: Slot Machine", page_icon="🎰", la
 
 st.title("🎰 GIG: Glücksspiel ist Geil")
 st.write("Willkommen beim Schul-Casino! Drücke auf 'Drehen', um dein Glück zu versuchen.")
-spiel_auswahl = st.sidebar.selectbox("Wähle ein Spiel:", ["🎰 Slot Machine", "🃏 Blackjack"])
+spiel_auswahl = st.sidebar.selectbox("Wähle ein Spiel:", ["🎰 Slot Machine", "🃏 Schwarzer Joachim"])
 
 if spiel_auswahl == "🎰 Slot Machine":
     def slot_machine():
