@@ -23,8 +23,8 @@ def drehen(aktueller_einsatz):
         st.error("Du hast kein Guthaben mehr! Kaufe dir weiteres Guthaben.")
         return
     elif st.session_state.kontostand < aktueller_einsatz_
-        st.error("Wähle einen anderen Einsatz.")
-        return
+          st.error("Wähle einen anderen Einsatz.")
+          return
 
     st.session_state.kontostand -= aktueller_einsatz
 
