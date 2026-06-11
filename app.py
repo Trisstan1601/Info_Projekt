@@ -104,17 +104,13 @@ if spiel_auswahl == "🎰 Slot Machine":
             else:
                 st.error("Du hast nicht genug ID, um Guthaben zu kaufen!")
     pass
-elif spiel_auswahl == "🃏 Blackjack":
+elif spiel_auswahl == "🃏 Schwarzer Joachim":
     import streamlit as st
 import random
 
-# Falls du das Spiel in einer separaten Datei oder per Navigation einbindest,
-# stellen wir sicher, dass das Casino-Guthaben existiert.
 if "kontostand" not in st.session_state:
     st.session_state.kontostand = 100
 
-# --- INITIALISIERUNG FÜR BLACKJACK ---
-# Diese Variablen müssen über Klicks hinweg gespeichert werden.
 if "bj_spiel_laeuft" not in st.session_state:
     st.session_state.bj_spiel_laeuft = False
 
@@ -173,19 +169,16 @@ def dealer_spielt():
     st.session_state.bj_spiel_laeuft = False
     st.rerun()
 
-# --- UI FÜR BLACKJACK ---
+
 st.title("🃏 Schul-Casino: Black Jack")
 st.metric(label="Dein Guthaben", value=f"{st.session_state.kontostand} Punkte")
 
-# Einsatz wählen (wie bei deiner Slot Machine)
 einsatz_bj = st.selectbox("Wähle deinen Blackjack-Einsatz:", [5, 10, 20, 50], key="bj_einsatz_select")
 
-# Start-Button (Nur klickbar, wenn kein Spiel aktiv ist)
 if not st.session_state.bj_spiel_laeuft:
     if st.button("🃏 Neues Spiel starten", use_container_width=True):
         blackjack_starten(einsatz_bj)
 
-# Wenn das Spiel läuft (oder gerade beendet wurde und Karten da sind), zeigen wir das Spielfeld an
 if st.session_state.bj_eigene_karten:
     st.markdown("---")
     
@@ -197,11 +190,9 @@ if st.session_state.bj_eigene_karten:
     with col_dealer:
         st.markdown("### 🤵 Dealer Karten")
         if st.session_state.bj_spiel_laeuft:
-            # Während das Spiel läuft, sieht man traditionell nur die erste Karte des Dealers
             st.write(f"Karten: [{st.session_state.bj_dealer_karten[0]}, ?]")
             st.write(f"Sichtbare Summe: {st.session_state.bj_dealer_karten[0]}")
         else:
-            # Am Ende sieht man alle Karten
             st.write(f"Karten: {st.session_state.bj_dealer_karten}")
             st.write(f"Gesamtsumme: {dealer_summe}")
             
@@ -212,7 +203,6 @@ if st.session_state.bj_eigene_karten:
 
     st.markdown("---")
     
-    # Statusmeldung (Wer hat gewonnen / Spiel läuft)
     if not st.session_state.bj_spiel_laeuft:
         if "🎉" in st.session_state.bj_status_text:
             st.success(st.session_state.bj_status_text)
@@ -223,14 +213,12 @@ if st.session_state.bj_eigene_karten:
     else:
         st.info(st.session_state.bj_status_text)
 
-    # Die Spiel-Aktionen (Nur anzeigen, wenn das Spiel aktiv läuft)
     if st.session_state.bj_spiel_laeuft:
         col_hit, col_stand = st.columns(2)
         
         with col_hit:
             if st.button("➕ Karte ziehen (Hit)", use_container_width=True):
                 st.session_state.bj_eigene_karten.append(random.choice(ZAHLEN))
-                # Direkt prüfen, ob der Spieler sich überkauft hat
                 if sum(st.session_state.bj_eigene_karten) > 21:
                     st.session_state.bj_status_text = f"💥 Überkauft ({sum(st.session_state.bj_eigene_karten)})! Der Dealer gewinnt."
                     st.session_state.bj_spiel_laeuft = False
