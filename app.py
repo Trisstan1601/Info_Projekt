@@ -50,6 +50,7 @@ def drehen(aktueller_einsatz):
         st.rerun() 
     else:
         st.warning("Leider kein Gewinn. Versuch es noch einmal!")
+        st.rerun()
 
 
 st.metric(label="Dein Guthaben", value=f"{st.session_state.kontostand} Punkte")
