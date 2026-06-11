@@ -48,7 +48,7 @@ def drehen(aktueller_einsatz):
         st.rerun()
         
     elif w1 == w2 or w2 == w3 or w1 == w3:
-        st.session_state.kontostand += 15
+        st.session_state.kontostand += aktueller_einsatz*1.5
         st.info("✨ Gut gemacht! 2 gleiche Symbole! Du gewinnst 15 Punkte!")
         st.rerun() 
     else:
@@ -104,10 +104,11 @@ with col_shop[0]:
 
 st.markdown("### ℹ️ Spielregeln & Infos")
 st.write("""
-- **Einsatz:** Jeder Dreh kostet dich 10 Punkte.
-- **2 gleiche Symbole:** Du erhältst 15 Punkte zurück.
-- **3 gleiche Symbole:** Großer Gewinn! (Je nach Symbol zwischen 40 und 100 Punkten).
-- Dieses Projekt wurde zu Bildungszwecken mit Python und Streamlit erstellt.
+- **Einsatz:** Jeder Dreh kostet dich deinen ausgewählten Einsatz.
+- **2 gleiche Symbole:** Du erhältst 1.5x deinen Einsatz zurück.
+- **3 gleiche Symbole:** Großer Gewinn! (Je nach Symbol zwischen 4x und 10x deinen Einsatz).
+- **1 Informatik Dollar (ID)** kann **100 Punkte** kaufen
+- Dieses Projekt wurde ausschließlich zu Bildungszwecken mit Python und Streamlit erstellt.
 """)
 
 
