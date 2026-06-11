@@ -107,7 +107,7 @@ st.write("""
 - **Einsatz:** Jeder Dreh kostet dich deinen ausgewählten Einsatz.
 - **2 gleiche Symbole:** Du erhältst 1.5x deinen Einsatz zurück.
 - **3 gleiche Symbole:** Großer Gewinn! (Je nach Symbol zwischen 4x und 10x deinen Einsatz).
-- **5 Informatik Dollar (ID)** kann **100 Punkte** kaufen
+- **5 Informatik Dollar (ID)** können **100 Punkte** kaufen.
 - Dieses Projekt wurde ausschließlich zu Bildungszwecken mit Python und Streamlit erstellt.
 """)
 
