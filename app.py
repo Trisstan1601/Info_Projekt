@@ -231,8 +231,6 @@ elif spiel_auswahl == "🃏 Schwarzer Joachim":
     blackjack()
     pass
 elif spiel_auswahl == "🪙 Coin Flip":
-st.title("🪙 Kopf oder Zahl Spiel")
-
 # Spielzustand initialisieren (damit die Computerwahl stabil bleibt)
 if "computer_wahl" not in st.session_state:
     st.session_state.computer_wahl = random.choice([1, 2])
