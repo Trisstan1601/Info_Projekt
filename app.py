@@ -83,7 +83,7 @@ with col_btn1:
         drehen(einsatz)
 
 with col_btn2:
-    if st.button("🔄 Spiel zurücksetzen", use_container_width=True):
+    if st.button("🔄 Spiel zurücksetzen", use_container_width=True, type="primary"):
         st.session_state.geld = 100
         st.session_state.kontostand = 100
         st.session_state.walzen = ["🍒", "🍋", "🍇"]
