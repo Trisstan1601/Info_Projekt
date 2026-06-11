@@ -42,6 +42,7 @@ def drehen(aktueller_einsatz):
             gewinn = aktueller_einsatz*4
         st.session_state.kontostand += gewinn
         st.success(f"🎉 JACKPOT! 3x {w1}! Du gewinnst {gewinn} Punkte!")
+        st.rerun()
         
     elif w1 == w2 or w2 == w3 or w1 == w3:
         st.session_state.kontostand += 15
