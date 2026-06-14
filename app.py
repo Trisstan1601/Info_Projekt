@@ -112,6 +112,9 @@ elif spiel_auswahl == "🃏 Schwarzer Joachim":
         if "kontostand" not in st.session_state:
             st.session_state.kontostand = 100
         
+        if "geld" not in st.session_state:
+            st.session_state.geld = 100
+        
         if "bj_spiel_laeuft" not in st.session_state:
             st.session_state.bj_spiel_laeuft = False
         
@@ -173,6 +176,21 @@ elif spiel_auswahl == "🃏 Schwarzer Joachim":
         
         st.title("🃏 Schul-Casino: Black Jack")
         st.metric(label="Dein Guthaben", value=f"{st.session_state.kontostand} Punkte")
+        st.metric(label="Dein Geld", value=f"{st.session_state.geld} ID")
+        
+        st.markdown("---")
+        
+        col_shop = st.columns(1)
+        with col_shop[0]:
+            if st.button("Jetzt neues Guthaben kaufen! (5ID = 100 Punkte)", use_container_width=True, key="bj_shop_kauf"):
+                if st.session_state.geld >= 5:
+                    st.session_state.kontostand += 100
+                    st.session_state.geld -= 5
+                    st.rerun()
+                else:
+                    st.error("Du hast nicht genug ID, um Guthaben zu kaufen!")
+        
+        st.markdown("---")
         
         einsatz_bj = st.selectbox("Wähle deinen Blackjack-Einsatz:", [5, 10, 20, 50], key="bj_einsatz_select")
         
@@ -228,14 +246,6 @@ elif spiel_auswahl == "🃏 Schwarzer Joachim":
                 with col_stand:
                     if st.button("🛑 Keine Karte mehr (Stand)", use_container_width=True):
                         dealer_spielt()
-        with col_shop[0]:
-            if st.button("Jetzt neues Guthaben kaufen! (5ID = 100 Punkte)", use_container_width=True):
-                if st.session_state.geld >= 5:
-                    st.session_state.kontostand += 100  
-                    st.session_state.geld -= 5          
-                    st.rerun()                         
-                else:
-                    st.error("Du hast nicht genug ID, um Guthaben zu kaufen!")
     blackjack()
     pass
 elif spiel_auswahl == "🪙 Coin Flip":
@@ -243,10 +253,17 @@ elif spiel_auswahl == "🪙 Coin Flip":
     st.title("🪙 Coin Flip")
     st.write("Errate, ob die Münze auf **Kopf** oder **Zahl** landet!")
 
+    if "kontostand" not in st.session_state:
+        st.session_state.kontostand = 100
+
     if "computer_wahl" not in st.session_state:
         st.session_state.computer_wahl = random.choice([1, 2])
 
+    st.metric(label="Dein Guthaben", value=f"{st.session_state.kontostand} Punkte")
+
     st.markdown("---")
+
+    einsatz_cf = st.selectbox("Wähle deinen Einsatz:", [5, 10, 20, 50], key="cf_einsatz_select")
 
     antwort = st.radio(
         "🎯 Deine Wahl:",
@@ -260,43 +277,48 @@ elif spiel_auswahl == "🪙 Coin Flip":
 
     if st.button("🪙 Münze werfen!", use_container_width=True):
 
-        with st.spinner("Die Münze fliegt..."):
-            time.sleep(1.5)
-
-        ergebnis = st.session_state.computer_wahl
-
-        if ergebnis == 1:
-            emoji = "🟡"
-            text = "Kopf"
+        if st.session_state.kontostand < einsatz_cf:
+            st.error("Du hast nicht genug Guthaben für diesen Einsatz!")
         else:
-            emoji = "⚪"
-            text = "Zahl"
+            st.session_state.kontostand -= einsatz_cf
 
-        st.markdown(
-            f"<h1 style='text-align:center; font-size:100px;'>{emoji}</h1>",
-            unsafe_allow_html=True
-        )
+            with st.spinner("Die Münze fliegt..."):
+                time.sleep(1.5)
 
-        st.markdown(
-            f"<h2 style='text-align:center;'>Ergebnis: {text}</h2>",
-            unsafe_allow_html=True
-        )
+            ergebnis = st.session_state.computer_wahl
 
-        if ergebnis == spieler_wahl:
-            st.success("🎉 Glückwunsch! Du hast richtig geraten und gewonnen!")
-            # Hier könntest du noch Guthaben erhöhen
-            # st.session_state.kontostand += einsatz * 2
-        else:
-            st.error("😢 Leider verloren. Versuch es nochmal!")
+            if ergebnis == 1:
+                emoji = "🟡"
+                text = "Kopf"
+            else:
+                emoji = "⚪"
+                text = "Zahl"
 
-        st.session_state.computer_wahl = random.choice([1, 2])
+            st.markdown(
+                f"<h1 style='text-align:center; font-size:100px;'>{emoji}</h1>",
+                unsafe_allow_html=True
+            )
+
+            st.markdown(
+                f"<h2 style='text-align:center;'>Ergebnis: {text}</h2>",
+                unsafe_allow_html=True
+            )
+
+            if ergebnis == spieler_wahl:
+                gewinn = einsatz_cf * 2
+                st.session_state.kontostand += gewinn
+                st.success(f"🎉 Glückwunsch! Du hast richtig geraten und gewinnst {gewinn} Punkte!")
+            else:
+                st.error(f"😢 Leider verloren. Du verlierst deinen Einsatz von {einsatz_cf} Punkten.")
+
+            st.session_state.computer_wahl = random.choice([1, 2])
     st.markdown("### ℹ️ Spielregeln & Infos")
     st.write("""
-    - **Einsatz:** Jeder Dreh kostet dich deinen ausgewählten Einsatz.
-    - **2 gleiche Symbole:** Du erhältst 1.5x deinen Einsatz zurück.
-    - **3 gleiche Symbole:** Großer Gewinn! (Je nach Symbol zwischen 4x und 10x deinen Einsatz).
+    - **Einsatz:** Jeder Münzwurf kostet dich deinen ausgewählten Einsatz.
+    - **Richtig geraten:** Du bekommst das Doppelte deines Einsatzes zurück.
+    - **Falsch geraten:** Dein Einsatz ist verloren.
+    - **2 gleiche Symbole (Slot Machine):** Du erhältst 1.5x deinen Einsatz zurück.
+    - **3 gleiche Symbole (Slot Machine):** Großer Gewinn! (Je nach Symbol zwischen 4x und 10x deinen Einsatz).
     - **5 Informatik Dollar (ID)** können **100 Punkte** kaufen.
     - Dieses Projekt wurde ausschließlich zu Bildungszwecken mit Python und Streamlit erstellt.
     """)
-
-
