@@ -6,10 +6,10 @@ st.set_page_config(page_title="Schulprojekt: Slot Machine", page_icon="🎰", la
 
 spiel_auswahl = st.sidebar.selectbox(
     "Wähle ein Spiel:",
-    ["🎰 Slot Machine", "🃏 Schwarzer Joachim", "🪙 Coin Flip"]
+    ["🎰 Rollender Manfred", "🃏 Schwarzer Joachim", "🪙 Carsten Salto"]
 )
 
-if spiel_auswahl == "🎰 Slot Machine":
+if spiel_auswahl == "🎰 Rollender Manfred":
     def slot_machine():
         if "geld" not in st.session_state:
             st.session_state.geld = 100
@@ -248,18 +248,34 @@ elif spiel_auswahl == "🃏 Schwarzer Joachim":
                         dealer_spielt()
     blackjack()
     pass
-elif spiel_auswahl == "🪙 Coin Flip":
+elif spiel_auswahl == "🪙 Carsten Salto":
 
-    st.title("🪙 Coin Flip")
+    st.title("🪙 Carsten Salto")
     st.write("Errate, ob die Münze auf **Kopf** oder **Zahl** landet!")
 
     if "kontostand" not in st.session_state:
         st.session_state.kontostand = 100
 
+    if "geld" not in st.session_state:
+        st.session_state.geld = 100
+
     if "computer_wahl" not in st.session_state:
         st.session_state.computer_wahl = random.choice([1, 2])
 
     st.metric(label="Dein Guthaben", value=f"{st.session_state.kontostand} Punkte")
+    st.metric(label="Dein Geld", value=f"{st.session_state.geld} ID")
+
+    st.markdown("---")
+
+    col_shop_cf = st.columns(1)
+    with col_shop_cf[0]:
+        if st.button("Jetzt neues Guthaben kaufen! (5ID = 100 Punkte)", use_container_width=True, key="cf_shop_kauf"):
+            if st.session_state.geld >= 5:
+                st.session_state.kontostand += 100
+                st.session_state.geld -= 5
+                st.rerun()
+            else:
+                st.error("Du hast nicht genug ID, um Guthaben zu kaufen!")
 
     st.markdown("---")
 
@@ -317,8 +333,8 @@ elif spiel_auswahl == "🪙 Coin Flip":
     - **Einsatz:** Jeder Münzwurf kostet dich deinen ausgewählten Einsatz.
     - **Richtig geraten:** Du bekommst das Doppelte deines Einsatzes zurück.
     - **Falsch geraten:** Dein Einsatz ist verloren.
-    - **2 gleiche Symbole (Slot Machine):** Du erhältst 1.5x deinen Einsatz zurück.
-    - **3 gleiche Symbole (Slot Machine):** Großer Gewinn! (Je nach Symbol zwischen 4x und 10x deinen Einsatz).
+    - **2 gleiche Symbole (Rollender Manfred):** Du erhältst 1.5x deinen Einsatz zurück.
+    - **3 gleiche Symbole (Rollender Manfred):** Großer Gewinn! (Je nach Symbol zwischen 4x und 10x deinen Einsatz).
     - **5 Informatik Dollar (ID)** können **100 Punkte** kaufen.
     - Dieses Projekt wurde ausschließlich zu Bildungszwecken mit Python und Streamlit erstellt.
     """)
