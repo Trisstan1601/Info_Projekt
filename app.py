@@ -230,7 +230,7 @@ elif spiel_auswahl == "🃏 Schwarzer Joachim":
                         dealer_spielt()
     blackjack()
     pass
-/*elif spiel_auswahl == "🪙 Coin Flip":
+elif spiel_auswahl == "🪙 Coin Flip":
 # Spielzustand initialisieren (damit die Computerwahl stabil bleibt)
 if "computer_wahl" not in st.session_state:
     st.session_state.computer_wahl = random.choice([1, 2])
@@ -250,7 +250,7 @@ if st.button("Münze werfen!"):
     if st.session_state.computer_wahl == spieler_wahl:
         st.success(f"🎉 {antwort}! Du hast gewonnen. Einsatz verdoppelt!")
     else:
-        st.error(f"😢 Leider nicht {antwort}! Du hast verloren.") */
+        st.error(f"😢 Leider nicht {antwort}! Du hast verloren.") 
 
     # Nach dem Spiel die Computerwahl für die nächste Runde neu auslosen
     st.session_state.computer_wahl = random.choice([1, 2])
