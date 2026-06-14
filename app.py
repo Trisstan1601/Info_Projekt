@@ -232,28 +232,28 @@ elif spiel_auswahl == "🃏 Schwarzer Joachim":
     pass
 elif spiel_auswahl == "🪙 Coin Flip":
 # Spielzustand initialisieren (damit die Computerwahl stabil bleibt)
-if "computer_wahl" not in st.session_state:
-    st.session_state.computer_wahl = random.choice([1, 2])
-
-# Benutzereingabe über ein Radio-Button-Auswahlfeld
-antwort = st.radio("Bitte wähle Kopf oder Zahl:", ("Kopf", "Zahl"))
-
-# Spieler-Wahl zuweisen
-if antwort == "Kopf":
-    spieler_wahl = 1
-else:
-    spieler_wahl = 2
-
-# Button zum Spielen
-if st.button("Münze werfen!"):
-    # Ergebnis prüfen
-    if st.session_state.computer_wahl == spieler_wahl:
-        st.success(f"🎉 {antwort}! Du hast gewonnen. Einsatz verdoppelt!")
+    if "computer_wahl" not in st.session_state:
+        st.session_state.computer_wahl = random.choice([1, 2])
+    
+    # Benutzereingabe über ein Radio-Button-Auswahlfeld
+    antwort = st.radio("Bitte wähle Kopf oder Zahl:", ("Kopf", "Zahl"))
+    
+    # Spieler-Wahl zuweisen
+    if antwort == "Kopf":
+        spieler_wahl = 1
     else:
-        st.error(f"😢 Leider nicht {antwort}! Du hast verloren.") 
-
-    # Nach dem Spiel die Computerwahl für die nächste Runde neu auslosen
-    st.session_state.computer_wahl = random.choice([1, 2])
+        spieler_wahl = 2
+    
+    # Button zum Spielen
+    if st.button("Münze werfen!"):
+        # Ergebnis prüfen
+        if st.session_state.computer_wahl == spieler_wahl:
+            st.success(f"🎉 {antwort}! Du hast gewonnen. Einsatz verdoppelt!")
+        else:
+            st.error(f"😢 Leider nicht {antwort}! Du hast verloren.") 
+    
+        # Nach dem Spiel die Computerwahl für die nächste Runde neu auslosen
+        st.session_state.computer_wahl = random.choice([1, 2])
     st.markdown("### ℹ️ Spielregeln & Infos")
     st.write("""
     - **Einsatz:** Jeder Dreh kostet dich deinen ausgewählten Einsatz.
