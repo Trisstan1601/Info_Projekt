@@ -231,28 +231,56 @@ elif spiel_auswahl == "🃏 Schwarzer Joachim":
     blackjack()
     pass
 elif spiel_auswahl == "🪙 Coin Flip":
-# Spielzustand initialisieren (damit die Computerwahl stabil bleibt)
+
+    st.title("🪙 Coin Flip")
+    st.write("Errate, ob die Münze auf **Kopf** oder **Zahl** landet!")
+
     if "computer_wahl" not in st.session_state:
         st.session_state.computer_wahl = random.choice([1, 2])
-    
-    # Benutzereingabe über ein Radio-Button-Auswahlfeld
-    antwort = st.radio("Bitte wähle Kopf oder Zahl:", ("Kopf", "Zahl"))
-    
-    # Spieler-Wahl zuweisen
-    if antwort == "Kopf":
-        spieler_wahl = 1
-    else:
-        spieler_wahl = 2
-    
-    # Button zum Spielen
-    if st.button("Münze werfen!"):
-        # Ergebnis prüfen
-        if st.session_state.computer_wahl == spieler_wahl:
-            st.success(f"🎉 {antwort}! Du hast gewonnen. Einsatz verdoppelt!")
+
+    st.markdown("---")
+
+    antwort = st.radio(
+        "🎯 Deine Wahl:",
+        ["🟡 Kopf", "⚪ Zahl"],
+        horizontal=True
+    )
+
+    spieler_wahl = 1 if antwort == "🟡 Kopf" else 2
+
+    st.markdown("---")
+
+    if st.button("🪙 Münze werfen!", use_container_width=True):
+
+        with st.spinner("Die Münze fliegt..."):
+            time.sleep(1.5)
+
+        ergebnis = st.session_state.computer_wahl
+
+        if ergebnis == 1:
+            emoji = "🟡"
+            text = "Kopf"
         else:
-            st.error(f"😢 Leider nicht {antwort}! Du hast verloren.") 
-    
-        # Nach dem Spiel die Computerwahl für die nächste Runde neu auslosen
+            emoji = "⚪"
+            text = "Zahl"
+
+        st.markdown(
+            f"<h1 style='text-align:center; font-size:100px;'>{emoji}</h1>",
+            unsafe_allow_html=True
+        )
+
+        st.markdown(
+            f"<h2 style='text-align:center;'>Ergebnis: {text}</h2>",
+            unsafe_allow_html=True
+        )
+
+        if ergebnis == spieler_wahl:
+            st.success("🎉 Glückwunsch! Du hast richtig geraten und gewonnen!")
+            # Hier könntest du noch Guthaben erhöhen
+            # st.session_state.kontostand += einsatz * 2
+        else:
+            st.error("😢 Leider verloren. Versuch es nochmal!")
+
         st.session_state.computer_wahl = random.choice([1, 2])
     st.markdown("### ℹ️ Spielregeln & Infos")
     st.write("""
