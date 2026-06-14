@@ -127,8 +127,8 @@ elif spiel_auswahl == "🃏 Schwarzer Joachim":
         if "bj_status_text" not in st.session_state:
             st.session_state.bj_status_text = ""
         
-        # Kartendeck (Zahlenwerte)
-        ZAHLEN = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11] # Optional die 11 für das Ass hinzugefügt
+
+        ZAHLEN = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11] # 11 direkt für das Ass hinzugefügt, 4x die 10, da einmal Karte 10 und 3 Bildkarten 
         
         def blackjack_starten(einsatz_bj):
             """Startet eine neue Runde Blackjack und zieht den Einsatz ab."""
@@ -139,7 +139,6 @@ elif spiel_auswahl == "🃏 Schwarzer Joachim":
             st.session_state.kontostand -= einsatz_bj
             st.session_state.bj_spiel_einsatz = einsatz_bj
             
-            # Karten für Spieler und Dealer neu austeilen
             st.session_state.bj_eigene_karten = [random.choice(ZAHLEN), random.choice(ZAHLEN)]
             st.session_state.bj_dealer_karten = [random.choice(ZAHLEN), random.choice(ZAHLEN)]
             
@@ -152,12 +151,11 @@ elif spiel_auswahl == "🃏 Schwarzer Joachim":
             eigene_summe = sum(st.session_state.bj_eigene_karten)
             dealer_summe = sum(st.session_state.bj_dealer_karten)
             
-            # Dealer zieht bis mindestens 17
+
             while dealer_summe < 17:
                 st.session_state.bj_dealer_karten.append(random.choice(ZAHLEN))
                 dealer_summe = sum(st.session_state.bj_dealer_karten)
                 
-            # Gewinnprüfung
             if dealer_summe > 21:
                 st.session_state.bj_status_text = f"🎉 Dealer hat sich überkauft ({dealer_summe})! Du gewinnst!"
                 st.session_state.kontostand += st.session_state.bj_spiel_einsatz * 2
