@@ -229,13 +229,13 @@ elif spiel_auswahl == "🃏 Schwarzer Joachim":
                     if st.button("🛑 Keine Karte mehr (Stand)", use_container_width=True):
                         dealer_spielt()
         with col_shop[0]:
-        if st.button("Jetzt neues Guthaben kaufen! (5ID = 100 Punkte)", use_container_width=True):
-            if st.session_state.geld >= 5:
-                st.session_state.kontostand += 100  
-                st.session_state.geld -= 5          
-                st.rerun()                         
-            else:
-                st.error("Du hast nicht genug ID, um Guthaben zu kaufen!")
+            if st.button("Jetzt neues Guthaben kaufen! (5ID = 100 Punkte)", use_container_width=True):
+                if st.session_state.geld >= 5:
+                    st.session_state.kontostand += 100  
+                    st.session_state.geld -= 5          
+                    st.rerun()                         
+                else:
+                    st.error("Du hast nicht genug ID, um Guthaben zu kaufen!")
     blackjack()
     pass
 elif spiel_auswahl == "🪙 Coin Flip":
